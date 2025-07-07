@@ -35,7 +35,7 @@ JWT_EXPIRES_IN=90d
 NODE_ENV=development
 CORS_ORIGIN=*
 MAX_FILE_UPLOAD=5
-FILE_UPLOAD_PATH=./public/uploads
+FILE_UPLOAD_PATH=./public/uploads´´´
 
 ## Endpoints base
 
