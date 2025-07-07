@@ -1,6 +1,14 @@
 # Dispositivos-Moviles
 # Backend - Sistema de Control de Herramientas
 
+## URL pública (deploy)
+https://api-herramientas-qf4v.onrender.com
+
+## Cómo usar la colección de Postman
+- Importa el archivo `Gestor de Herramientas API.postman_collection.json` en Postman.
+- Importa también el archivo `GestorLocal.postman_environment.json`.
+- Configura el environment para usar la URL del backend desplegado.
+- Prueba los endpoints antes de integrarlos al frontend.
 ## Tecnologías
 - Node.js + Express: servidor y rutas REST.
 - MongoDB + Mongoose: base de datos en la nube (MongoDB Atlas).
@@ -58,3 +66,13 @@ GET /api/v1/loans/:id
 GET /api/v1/loans/overdue
 PATCH /api/v1/loans/:id/return
 DELETE /api/v1/loans/:id (admin)
+
+## Postman
+
+Para probar la API con Postman:
+
+1. Abre Postman y ve a "Import".  
+2. Selecciona el archivo `postman/Herramientas.postman_collection.json` para importar la colección.  
+3. Luego importa el archivo `postman/Herramientas.postman_environment.json` para configurar las variables de entorno.  
+4. Selecciona el environment importado y prueba los endpoints con la URL base:  
+   `https://api-herramientas-qf4v.onrender.com`
