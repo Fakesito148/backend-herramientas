@@ -1,4 +1,3 @@
-
 require('dotenv').config({ path: `${__dirname}/.env` });
 const express = require('express');
 const cors = require('cors');
@@ -84,7 +83,7 @@ app.use((err, req, res, next) => {
 
 // Iniciar servidor
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || process.env.APP_PORT || 3000;
 const ENV = process.env.NODE_ENV || 'development';
 
 app.listen(PORT, () => {
