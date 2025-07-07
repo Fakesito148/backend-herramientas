@@ -27,7 +27,6 @@ https://api-herramientas-qf4v.onrender.com
 
 Crea un archivo `.env` con estas variables:
 
-```env
 PORT=3000
 MONGO_URI=mongodb+srv://usuario:password@cluster.mongodb.net/db
 JWT_SECRET=tu_secreto
@@ -35,7 +34,7 @@ JWT_EXPIRES_IN=90d
 NODE_ENV=development
 CORS_ORIGIN=*
 MAX_FILE_UPLOAD=5
-FILE_UPLOAD_PATH=./public/uploads´´´
+FILE_UPLOAD_PATH=./public/uploads
 
 ## Endpoints base
 
