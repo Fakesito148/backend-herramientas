@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const Loan = require('../models/loan.model');
-const Tool = require('../models/tool.model');
+const {Tool} = require('../models/tool.model');
 const User = require('../models/user.model');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
@@ -8,6 +8,7 @@ const AppError = require('../utils/appError');
 exports.getUserLoans = catchAsync(async (req, res, next) => {
   const loans = await Loan.find({ user: req.user.id })
     .populate('tool', 'name description image')
+    .populate('user', 'name email')   // <--- Agrega esta línea
     .sort('-createdAt');
 
   res.status(200).json({
@@ -42,7 +43,9 @@ exports.getOverdueLoans = catchAsync(async (req, res, next) => {
 
 exports.getLoan = catchAsync(async (req, res, next) => {
   const loan = await Loan.findById(req.params.id)
-    .populate('tool', 'name image');
+    .populate('tool', 'name image')
+    .populate('user', 'name email');
+
 
   if (!loan) {
     return next(new AppError('Préstamo no encontrado', 404));
@@ -140,6 +143,18 @@ exports.deleteLoan = catchAsync(async (req, res, next) => {
     data: null
   });
 });
+exports.getAllLoans = catchAsync(async (req, res, next) => {
+  const loans = await Loan.find()
+    .populate('tool', 'name image')
+    .populate('user', 'name email') // Esto es lo importante
+    .sort('-createdAt');
+
+  res.status(200).json({
+    status: 'success',
+    results: loans.length,
+    data: { loans }
+  });
+});
 
 exports.createLoan = catchAsync(async (req, res, next) => {
   const session = await mongoose.startSession();
@@ -205,6 +220,8 @@ exports.createLoan = catchAsync(async (req, res, next) => {
     });
 
   } catch (err) {
+        console.error("❌ Error interno al crear préstamo:", err); // <-- Agrega esto
+
     await session.abortTransaction();
     next(err);
   } finally {

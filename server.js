@@ -86,10 +86,9 @@ app.use((err, req, res, next) => {
 const PORT = process.env.PORT || process.env.APP_PORT || 3000;
 const ENV = process.env.NODE_ENV || 'development';
 
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
   console.log(`Servidor en modo ${ENV} escuchando en puerto ${PORT}`);
-  console.log(` http://localhost:${PORT}`);
-  
+  //console.log(` http://localhost:${PORT}`);
 });
 
 

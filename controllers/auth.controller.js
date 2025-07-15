@@ -18,6 +18,8 @@ exports.register = async (req, res, next) => {
     });
 
   } catch (error) {
+        console.error('❌ Error al registrar:', error); // 👈 Agrega esto
+
     next(error);
   }
 };

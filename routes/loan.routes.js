@@ -3,39 +3,22 @@ const router = express.Router();
 const loanController = require('../controllers/loan.controller');
 const authMiddleware = require('../middleware/auth.middleware');
 
-// Middleware de autenticación para todas las rutas
+// Middleware global: proteger todo
 router.use(authMiddleware.protect);
 
-// Ruta para crear préstamo
-router.post('/', 
-  authMiddleware.restrictTo('user', 'admin'),
-  loanController.createLoan
-);
+// Crear préstamo (usuarios y admin)
+router.post('/', authMiddleware.restrictTo('user', 'admin'), loanController.createLoan);
 
-// Ruta para obtener préstamos del usuario
-router.get('/',
-  loanController.getUserLoans
-);
+// ✅ Esta ruta es para usuarios y admin (sus propios préstamos)
+router.get('/', authMiddleware.restrictTo('user', 'admin'), loanController.getUserLoans);
 
-// Ruta para préstamos vencidos
-router.get('/overdue',
-  loanController.getOverdueLoans
-);
+// ✅ Solo el admin puede ver todos
+router.get('/all', authMiddleware.restrictTo('admin'), loanController.getAllLoans);
 
-// Ruta para obtener un préstamo específico
-router.get('/:id',
-  loanController.getLoan
-);
-
-// Ruta para devolver herramienta
-router.patch('/:id/return',
-  loanController.returnTool
-);
-
-// Ruta para eliminar préstamo (solo admin)
-router.delete('/:id',
-  authMiddleware.restrictTo('admin'),
-  loanController.deleteLoan
-);
+// Otros endpoints
+router.get('/overdue', loanController.getOverdueLoans);
+router.patch('/:id/return', loanController.returnTool);
+router.delete('/:id', authMiddleware.restrictTo('admin'), loanController.deleteLoan);
+router.get('/:id', loanController.getLoan);
 
 module.exports = router;

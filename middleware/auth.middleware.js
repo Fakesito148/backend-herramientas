@@ -34,9 +34,11 @@ exports.protect = async (req, res, next) => {
 
 exports.restrictTo = (...roles) => {
   return (req, res, next) => {
+    console.log('Rol usuario:', req.user.role, 'Roles permitidos:', roles);
     if (!roles.includes(req.user.role)) {
       return next(new AppError('No tienes permisos', 403));
     }
     next();
   };
 };
+

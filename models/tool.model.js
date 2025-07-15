@@ -1,3 +1,5 @@
+// models/tool.models.js
+
 const mongoose = require('mongoose');
 
 const toolSchema = new mongoose.Schema({
@@ -21,15 +23,15 @@ const toolSchema = new mongoose.Schema({
     default: 1,
     min: 0
   },
-  totalQuantity: {  
+  totalQuantity: {
     type: Number,
     default: 1
   },
-  borrowedQuantity: {  
+  borrowedQuantity: {
     type: Number,
     default: 0
   },
-  loans: [{ 
+  loans: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Loan'
   }],
@@ -38,7 +40,7 @@ const toolSchema = new mongoose.Schema({
     ref: 'User',
     required: false
   },
-  currentLoan: {  
+  currentLoan: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Loan',
     default: null
@@ -46,4 +48,10 @@ const toolSchema = new mongoose.Schema({
   image: String
 }, { timestamps: true });
 
-module.exports = mongoose.model('Tool', toolSchema);
+// Colección principal
+const Tool = mongoose.model('Tool', toolSchema);
+
+// Colección secundaria para visibilidad especial del admin
+const AdminTool = mongoose.model('AdminTool', toolSchema, 'admin_tools');
+
+module.exports = { Tool, AdminTool };

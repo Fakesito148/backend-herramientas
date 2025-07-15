@@ -1,8 +1,10 @@
-const Tool = require('../models/tool.model');
+const { Tool, AdminTool } = require('../models/tool.model');
 const Loan = require('../models/loan.model');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
 const { deletePreviousImage } = require('../utils/fileUpload');
+
+// Importa el modelo para la colección admin_tools
 
 // Crear herramienta 
 exports.createTool = catchAsync(async (req, res, next) => {
@@ -12,7 +14,11 @@ exports.createTool = catchAsync(async (req, res, next) => {
     req.body.image = `/uploads/tools/${req.file.filename}`;
   }
 
+  // Guardar herramienta en colección principal
   const tool = await Tool.create(req.body);
+
+  // Guardar también en colección admin_tools
+  await AdminTool.create(req.body);
 
   res.status(201).json({
     status: 'success',
@@ -87,7 +93,7 @@ exports.checkToolAvailability = catchAsync(async (req, res, next) => {
 
   const activeLoans = await Loan.countDocuments({ 
     tool: req.params.id, 
-    status: { $in: ['active', 'pending'] }
+    status: { $in: ['activo', 'pendiente'] }
   });
 
   res.status(200).json({
